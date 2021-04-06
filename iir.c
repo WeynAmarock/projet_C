@@ -13,8 +13,10 @@ absorp iirTest(char* filename){
 
 	do{
 		x = lireFichier(pf,&fileState); // x prend la valeur du nouvelle absorp du fichier
-		myAbsorp=IIR(x,old_x,myAbsorp);	// On filtre la valeur de x 
-		old_x=myAbsorp; //On remplace la valeur de old_x par x
+		if(fileState != EOF){
+			myAbsorp=IIR(x,old_x,myAbsorp);	// On filtre la valeur de x 
+			old_x=x; //On remplace la valeur de old_x par x
+		}
 
 	}while(fileState != EOF);
 
