@@ -1,5 +1,5 @@
-projet.exe: main.o iir.o fir.o 
-	gcc main.o iir.o fir.o  -o projet.exe 
+projet.exe: main.o iir.o fir.o fichiers.o
+	gcc main.o iir.o fir.o fichiers.o -o projet.exe 
 
 main.o: main.c define.h
 	gcc -g -c main.c
@@ -10,6 +10,8 @@ iir.o: iir.c iir.h
 fir.o: fir.c fir.h
 	gcc -g -c fir.c
 
+fichiers.o: fichiers.c fichiers.h
+	gcc -g -c fichiers.c
 
 clean:
-	rm *.o projet
+	rm *.o fichier, projet, fir, irr
