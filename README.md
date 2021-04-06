@@ -1,3 +1,3 @@
 # projet_C
 
-#Couille
+#j'ai update fir.c & fir.h
