@@ -1,7 +1,6 @@
 #ifndef FICHIERS_H
 #define FICHIERS_H
-#include <stdio.h>
-#include <stdlib.h>
+
 #include "define.h"
 
 

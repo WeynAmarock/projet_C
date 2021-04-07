@@ -6,5 +6,6 @@
 int main(){
     oxy myOxy;
     myOxy = mesureTest("record1_iir.dat");
+    //printf("spo2 = %d\npouls =  %d\n",myOxy.spo2, myOxy.pouls);
     return 0;
 }

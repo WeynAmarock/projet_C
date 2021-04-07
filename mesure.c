@@ -1,11 +1,13 @@
 #include "mesure.h"
 
 oxy mesureTest(char* filename){
-	oxy myOxy;
 	absorp data;
 	int fileState = 0;
 	periode *myPeriode;
 	myPeriode = malloc(1*sizeof(periode));
+	oxy *myOxy ;
+	myOxy = malloc(1*sizeof(oxy));
+	oxy return_var;
 
 	//On initialise MyPeriode
 	initPeriode(myPeriode);
@@ -14,63 +16,41 @@ oxy mesureTest(char* filename){
 
 	do{
 		data = lireFichier(pf,&fileState); // data prend la valeur du nouvelle absorp du fichier
-		mesure(data,myPeriode);
+		mesure(data,myPeriode,myOxy);
 		
 	}while(fileState != EOF);
 
+	return_var=*myOxy;
 	free(myPeriode);
+	free(myOxy);
 	finFichier(pf);
-	return myOxy;
+	return return_var;
 }
 
 
-/*
-int status_State(int val,  int state)
+void mesure(absorp myAbsorp ,periode *myPeriode, oxy *myOxy)
 {
-	if(state == 1){
-		if(val>200){
-			state=2;	
-		}
-	}
-	if(state == 2){
-		if(val<200){
-			state=3;			
-		}
-	}
-	if(state == 3){
-		if(val>200){
-			state=4;
-		}
-	}
-	return state;
-}*/
-	
-
-
-
-oxy mesure(absorp myAbsorp ,periode *myPeriode)
-{
-	oxy myOxy;
 	float ratio;
 	int ptp_ACr;
 	int ptp_ACir;
 
 	//On regarde si on a terminé la période.
 	if(myAbsorp.acr>0 && myPeriode->last_value<0){
-
+		
 		ptp_ACr=myPeriode->val_maxR - myPeriode->val_minR;
 		ptp_ACir=myPeriode->val_maxIR - myPeriode->val_minIR;
 		ratio = (ptp_ACr/myAbsorp.dcr)/(ptp_ACir/myAbsorp.dcir);
 
 		if(ratio<=1){
-			myOxy.spo2= -25 * ratio  +110;
+			myOxy->spo2= -25 * ratio  +110;
 		}else{
-			myOxy.spo2= -35 * ratio  +120;
+			myOxy->spo2= -35 * ratio  +120;
 		}
-		myOxy.pouls=30000/myPeriode->cpt_pouls;
+		
+		myOxy->pouls=30000/myPeriode->cpt_pouls;
 		
 		initPeriode(myPeriode);
-		return myOxy;
+		return ;
 	}
 
 	if(myAbsorp.acr>0){
@@ -89,11 +69,7 @@ oxy mesure(absorp myAbsorp ,periode *myPeriode)
 	myPeriode->last_value=myAbsorp.acr;
 	myPeriode->cpt_pouls++;
 
-	//myOxy.spo2=
-
-	//myOxy.pouls= 30000 / cpt;
-
-	return myOxy;
+	return;
 }
 
 

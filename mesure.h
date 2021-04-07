@@ -7,7 +7,7 @@ int val_inf(int val, int min);
 
 int val_sup(int val, int max);
 
-oxy mesure(absorp myAbsorp ,periode *myPeriode);
+void mesure(absorp myAbsorp ,periode *myPeriode, oxy *myOxy);
 
 void initPeriode(periode *myPeriode);
 
