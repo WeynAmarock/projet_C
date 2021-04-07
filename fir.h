@@ -2,5 +2,4 @@
 #include "fichiers.h"
 
 absorp firTest(char* filename);
-absorp FIR(absorp data);
-
+absorp FIR(absorp data, absorp* circ_buff);
