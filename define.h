@@ -37,6 +37,12 @@ typedef struct{
 	} oxy;
 
 
+typedef struct{
+		int cpt_pouls; //Compteur du nombre de données (de absorp) dans une période
+		int val_maxR, val_maxIR, val_minR,val_minIR; //Valeur max et min de acr et acir 
+		int state; // = 1 si période en cours ou = 0 si prériode terminée
+		int last_value; // Derière valeur en mémoire
+	} periode;
 
 
 #endif // DEFINE_H

@@ -1,5 +1,5 @@
-projet.exe: main.o iir.o fir.o fichiers.o affichage.o
-	gcc main.o iir.o fir.o fichiers.o affichage.o -o projet.exe 
+projet.exe: main.o iir.o fir.o fichiers.o affichage.o mesure.o
+	gcc main.o iir.o fir.o fichiers.o affichage.o mesure.o -o projet.exe 
 
 main.o: main.c define.h
 	gcc -g -c main.c
@@ -16,5 +16,8 @@ fichiers.o: fichiers.c fichiers.h
 affichage.o: affichage.c affichage.h
 	gcc -g -c affichage.c
 
+mesure.o: mesure.c mesure.h
+	gcc -g -c mesure.c
+
 clean:
-	rm *.o fichier, projet, fir, irr, affichage
+	rm *.o mesure affichage fir fichiers iir main projet
