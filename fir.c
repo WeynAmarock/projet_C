@@ -8,15 +8,24 @@ absorp firTest(char* filename)
 	int fileState = 0;
 
 
+	// Initialisation du buffer, contient 51 zéros
+	absorp circ_buff[51] = {0};
+
 	FILE* file = initFichier(filename);
-	
-	while(fileState != EOF)
-	{
+
+	do {
+
 		// Donnée la plus récente
 		data = lireFichier(file, &fileState);
-		// Appelle fonction FIR // Retourne absorp filtré
-		myAbsorp = FIR(data);
-	}
+
+		if(fileState!= EOF) 
+		{
+	
+			// Appelle fonction FIR // Retourne absorp filtré
+			myAbsorp = FIR(data, circ_buff);
+		}
+	} while(fileState != EOF);
+	
 
 	finFichier(file);
 
@@ -24,12 +33,11 @@ absorp firTest(char* filename)
 }
 
 
-absorp FIR(absorp data)
+absorp FIR(absorp data, absorp* circ_buff)
 {
 	int i;
-
 	absorp myAbsorp;
-	
+
 	float FIR_TAPS[51]={
 	    1.4774946e-019,
 	    1.6465231e-004,
@@ -84,15 +92,10 @@ absorp FIR(absorp data)
 	    1.4774946e-019
 	};
 
-	// Initialisation du buffer, contient 51 zéros
-	absorp circ_buff[51] = {0};
 
 	// Initialisation à 0 les valeurs de acr et acir  
-	myAbsorp.acr=0;
-	myAbsorp.acir=0;
-	myAbsorp.dcr = data.dcr;
-	myAbsorp.dcir = data.dcir;
-
+	myAbsorp.acr = 0;
+	myAbsorp.acir = 0;
 
 	// Buffer circulaire // La nouvelle donnée écrase la plus vielle
 	for (i = 50; i > 0; i--) 
@@ -110,5 +113,9 @@ absorp FIR(absorp data)
 		myAbsorp.acir += FIR_TAPS[i]*circ_buff[i].acir;
 	}
 
+	myAbsorp.dcr = data.dcr;
+	myAbsorp.dcir = data.dcir;
+
+	
 	return myAbsorp;
 }
