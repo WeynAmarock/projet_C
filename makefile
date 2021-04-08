@@ -23,4 +23,4 @@ lecture.o: lecture.c lecture.h
 	gcc -g -c lecture.c
 
 clean:
-	rm *.o mesure affichage fir fichiers iir main projet
+	rm *.o

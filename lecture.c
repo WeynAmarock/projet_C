@@ -5,66 +5,68 @@ absorp lecture(FILE* file_pf, int* file_state){
 
 	absorp myAbsorp = initAbsorp();
 
-	//int val; 
-	//int cpt =0;
-	//int a=1000;
-	//int etat =0;
-	//int chiffre;
+	int a=1000;
+	int etat =0;
+	int chiffre;
 
 	char tab[21]={0};
 	char carac;
+	int i;
 
-	for(int i=0;i<21;i++){
+	for(i=0;i<21;i++){
 		carac=fgetc(file_pf);
+		//printf("%x ", carac);
 		if(carac==EOF){
 			*file_state = EOF;
 			return myAbsorp;
 		}
 		tab[i] = carac; 
 	}
-	
-    do{
-		val = fgetc(file_pf);
-		printf("val = %x\n",val);
-		//* file_state = val ;
-		// chiffre = val & 0x0F;
 
+	// On vérifie que la trame envoyé est correcte 
+	//printf("%d\n",verif_trame(tab));
+	while(!verif_trame(tab)){ 
 
-		if(val == 0x0a){
-			myAbsorp.acr = myAbsorp.acr - 2048;
-			myAbsorp.acir = myAbsorp.acir - 2048;
-			file_test=file_pf;
-			if(fgetc(file_test)!=EOF){
-				*file_state=1;
-			}
-			//printf("cpt = %d\n",cpt);
+		//On remplace la deriere valeur par une nouvelle entrée que l on place a la première place 
+		for (i = 20; i > 0; i--) {
+    		tab[i] = tab[i-1]; // Décalage des donnees du buffer
+		}
+		carac=fgetc(file_pf);
+		if(carac==EOF){
+			*file_state = EOF;
 			return myAbsorp;
 		}
+		
+		tab[0] = carac; 
+	}
 
-		// if(val != 0x2c){
-		// 	switch(etat){
-		// 		case 0:
-		// 			myAbsorp.acr = myAbsorp.acr + chiffre *a;
-		// 			break;
-		// 		case 1:
-		// 			myAbsorp.dcr=myAbsorp.dcr + chiffre *a;
-		// 			break;
-		// 		case 2:
-		// 			myAbsorp.acir = myAbsorp.acir + chiffre *a;
-		// 			break;
-		// 		case 3 :
-		// 			myAbsorp.dcir=myAbsorp.dcir + chiffre *a;
-		// 			break;
-		// 	}
-			a=a/10;		
+	for(i=0; i<21;i++){
+		
+		if(tab[i] == 0x0a){
+			chiffre = tab[i] & 0x0F;
+			switch(etat){
+				case 0:
+					myAbsorp.acr = myAbsorp.acr + chiffre *a;
+					break;
+				case 1:
+					myAbsorp.dcr=myAbsorp.dcr + chiffre *a;
+					break;
+				case 2:
+					myAbsorp.acir = myAbsorp.acir + chiffre *a;
+					break;
+				case 3 :
+					myAbsorp.dcir=myAbsorp.dcir + chiffre *a;
+					break;
+			}
+			a=a/10;
 		}else{
 			etat++;
-			a= 1000;
+			a = 1000;
 		}
-		//cpt++;	
-    }while(val != EOF);	
-	//printf("\n");
-	//return myAbsorp;
+	}
+
+	// *file_state=1;
+	return myAbsorp;	
 }
 
 
@@ -81,7 +83,33 @@ absorp initAbsorp(void){
 
 
 int verif_trame(char *tab){
-	//for(int i = 0; i)
+	int i = 0;
+	for(i = 0; i < 21; i++){
+		switch(i){
+			case 4:
+			case 9:
+			case 14:
+				if(tab[i]!=0x2c){
+					//printf("test , %d => %c\n",i,tab[i]);
+					return 0;
+				}
+				break;
+			case 19 :
+			case 20 :			
+			 	if(tab[i]!=0x0a){
+					//printf("test 0x0a %d\n",i);
+					return 0;
+				}
+				break;
+			// case 20 :
+			//  	if(tab[i]!=0x0d){
+			// 		 //printf("test 0x0a %d\n",i);
+			// 		return 0;
+			// 	}
+			// 	break;
+		}
+	}
+	return 1;
 }
 
 /*printf("%d\n",*file_state);

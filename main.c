@@ -9,6 +9,7 @@ int main(){
     int file_state = 0;
     FILE* pf=initFichier("record1_bin.dat");
 
+
     do{
 		  myAbsorp = lecture(pf,&file_state);
 
