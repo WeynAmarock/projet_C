@@ -12,7 +12,7 @@ absorp lecture(FILE* file_pf, int* file_state){
 	int etat =0;	// Cette varaible sert à placer les valeurs trouvé à la bonne place dans le absorp 
 	//(etat = 0 => acr, etat = 1 => dcr, etat = 2 => acir, etat = 3 => dcir)
 	int chiffre;	//Cette variable sert à remplacer la valeur récupérer dans la trame qui est en hexa pour la convertir en decimal ( 0x32 => 2)
-	int i=0;		//compteur utilisé dans les for
+	int i=0;	//compteur utilisé dans les for
 	char carac;		//Variable qui stoque l'octet que l on lit dans la trame 
 	char trame[21]={0};		// Variable contenant les octets d'informations
 
@@ -49,6 +49,7 @@ absorp lecture(FILE* file_pf, int* file_state){
 				case 1:
 					myAbsorp.dcr=myAbsorp.dcr + chiffre *dix;
 					break;
+				case 2:
 					myAbsorp.acir = myAbsorp.acir + chiffre *dix;
 					break;
 				case 3 :
@@ -58,9 +59,11 @@ absorp lecture(FILE* file_pf, int* file_state){
 			dix=dix/10;
 		}else{
 			etat++;
+			//cpt ++;
 			dix = 1000;
 		}
 	}
+
 	// On recadrer les 2 composantes alternatives (ACR et ACIR) autour de 0
 	myAbsorp.acr =myAbsorp.acr-2048;
 	myAbsorp.acir =myAbsorp.acir-2048;
@@ -77,5 +80,7 @@ absorp initAbsorp(void){
 	myAbsorp.dcir=0;
 	return myAbsorp;
 }
+
+
 
 
