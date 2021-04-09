@@ -49,7 +49,6 @@ absorp lecture(FILE* file_pf, int* file_state){
 				case 1:
 					myAbsorp.dcr=myAbsorp.dcr + chiffre *dix;
 					break;
-				case 2:
 					myAbsorp.acir = myAbsorp.acir + chiffre *dix;
 					break;
 				case 3 :
