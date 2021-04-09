@@ -3,18 +3,14 @@
 #include "affichage.h"
 #include "mesure.h"
 #include "lecture.h"
+#include "integration.h"
 
 int main(){
-    absorp myAbsorp;
+    oxy myOxy;
     int file_state = 0;
-    FILE* pf=initFichier("record1_bin.dat");
-    FILE test_file;
+    FILE* pf=initFichier("record1_iir.dat");
 
-
-    while(file_state != EOF){
-        myAbsorp = lecture(pf,&file_state);
-        printf("ACR = %f\t DCR = %f\t ACIR = %f\t DCIR = %f\n", myAbsorp.acr,myAbsorp.dcr,myAbsorp.acir,myAbsorp.dcir);
-	  }
+    integrationTest("record1.dat");
 
     //printf("ACR = %f\t DCR = %f\t ACIR = %f\t DCIR = %f\n", myAbsorp.acr,myAbsorp.dcr,myAbsorp.acir,myAbsorp.dcir);
     finFichier(pf);

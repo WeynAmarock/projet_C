@@ -20,7 +20,7 @@ void integrationTest(char* filename)
 	y.acir=0;
 
 	oxy myOxy;
-	int i = 0;
+//	int i = 0;
 
 	periode myPeriode;
 	initPeriode(&myPeriode);
@@ -33,7 +33,8 @@ void integrationTest(char* filename)
 	FILE* file = initFichier(filename);
 
 	do {
-
+    //printf("\n\tSTART\n");
+    //printf("cpt periode = %d\n",myPeriode.cpt_periode);
 		myAbsorp = lireFichier(file, &fileState);
 
 		if (fileState != EOF) {
@@ -46,12 +47,15 @@ void integrationTest(char* filename)
 			
 
 			mesure(y, &myPeriode, &myOxy);			// void mesure(absorp myAbsorp ,periode *myPeriode, oxy *myOxy)
-			printf("pouls > %d\t\t\t< MESURE\n", myOxy.pouls);
-			printf("spo2 > %d\t\t\t< MESURE\n\n", myOxy.spo2);
 			
-			printf("%d\n", i);
-			i++;
-			affichage(myOxy);			// void affichage(oxy myOxy)
+			
+			//printf("%d\n", i);
+			//i++;
+      if(!myPeriode.state){
+        // printf("pouls > %d\t\t\t< MESURE\n", myOxy.pouls);
+			  // printf("spo2 > %d\t\t\t< MESURE\n\n", myOxy.spo2);
+        affichage(myOxy);			// void affichage(oxy myOxy)
+      }	
 		}
 
 	} while (fileState != EOF);
