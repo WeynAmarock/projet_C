@@ -1,6 +1,6 @@
 void integrationTest(char* filename)
 {
-  
+  /*
   absorp* buffer[51] = {0};
   
   
@@ -13,5 +13,5 @@ void integrationTest(char* filename)
     }
   } while (fileState != EOF);
   
-  
+  */
 }
